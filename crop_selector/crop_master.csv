@@ -1,0 +1,4 @@
+name,soil_texture,ph_min,ph_max,organic_matter,drainage,rainfall_min,rainfall_max,temperature_min,temperature_max
+Wheat,Loam,6.0,7.5,Medium,Well-drained,500,1000,20,25
+Rice,Clay,5.5,7.0,High,Poorly drained,1000,2000,25,30
+Maize,Sandy Loam,5.8,7.2,Low,Moderately drained,600,1000,22,28
