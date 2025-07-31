@@ -1,7 +1,9 @@
+# crop_selector/recommendation/models.py
 from django.db import models
-
+from django.contrib.auth.models import User
 # Crop model to store crop details
 class Crop(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     SOIL_TEXTURE_CHOICES = [
         ('Loam', 'Loam'),
         ('Clay', 'Clay'),
@@ -39,7 +41,8 @@ class Crop(models.Model):
     ]
     irrigation_type = models.CharField(max_length=20, choices=IRRIGATION_CHOICES)
     water_holding_capacity = models.FloatField(null=True, blank=True)
-    field_size = models.FloatField(help_text="In acres or hectares")
+    field_size = models.FloatField(null=True, blank=True)
+
 
     SEASON_CHOICES = [
         ('Kharif', 'Kharif'),
@@ -76,20 +79,21 @@ class Crop(models.Model):
 
     def __str__(self):
         return f"{self.district} | {self.soil_texture} | {self.sowing_season}"
-
+# what is  this crop master ? 
 
 class CropMaster(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-    soil_texture = models.CharField(max_length=50, choices=Crop.SOIL_TEXTURE_CHOICES)
-    ph_min = models.FloatField()
-    ph_max = models.FloatField()
-    organic_matter = models.CharField(max_length=10, choices=Crop.ORGANIC_MATTER_CHOICES)
-    drainage = models.CharField(max_length=30, choices=Crop.DRAINAGE_CHOICES)
-
+    crop_name = models.CharField(max_length=100, default="Unknown Crop")  # 👈 Add default!
+    soil_texture = models.CharField(max_length=100)
+    soil_ph_min = models.FloatField()
+    soil_ph_max = models.FloatField()
+    organic_matter = models.FloatField()
+    drainage_status = models.CharField(max_length=100) 
     rainfall_min = models.FloatField()
     rainfall_max = models.FloatField()
     temperature_min = models.FloatField()
     temperature_max = models.FloatField()
 
+
+
     def __str__(self):
-        return self.name
+        return self.crop_name

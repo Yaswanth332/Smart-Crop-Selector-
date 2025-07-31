@@ -1,0 +1,16 @@
+# .gitignore
+# Python (Django)
+__pycache__/
+*.pyc
+*.sqlite3
+env/
+venv/
+
+# Node (React)
+node_modules/
+build/
+dist/
+
+# OS files
+.DS_Store
+Thumbs.db
