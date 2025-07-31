@@ -1,6 +1,7 @@
 # crop_selector/recommendation/models.py
 from django.db import models
 from django.contrib.auth.models import User
+
 # Crop model to store crop details
 class Crop(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -43,7 +44,6 @@ class Crop(models.Model):
     water_holding_capacity = models.FloatField(null=True, blank=True)
     field_size = models.FloatField(null=True, blank=True)
 
-
     SEASON_CHOICES = [
         ('Kharif', 'Kharif'),
         ('Rabi', 'Rabi'),
@@ -79,21 +79,30 @@ class Crop(models.Model):
 
     def __str__(self):
         return f"{self.district} | {self.soil_texture} | {self.sowing_season}"
-# what is  this crop master ? 
 
+
+# CropMaster model - Fixed to match CSV structure
 class CropMaster(models.Model):
-    crop_name = models.CharField(max_length=100, default="Unknown Crop")  # 👈 Add default!
+    ORGANIC_MATTER_CHOICES = [
+        ('High', 'High'),
+        ('Medium', 'Medium'),
+        ('Low', 'Low'),
+    ]
+    
+    crop_name = models.CharField(max_length=100)
     soil_texture = models.CharField(max_length=100)
     soil_ph_min = models.FloatField()
     soil_ph_max = models.FloatField()
-    organic_matter = models.FloatField()
-    drainage_status = models.CharField(max_length=100) 
+    organic_matter = models.CharField(max_length=10, choices=ORGANIC_MATTER_CHOICES)  # Fixed: Changed from FloatField to CharField
+    drainage_status = models.CharField(max_length=100)  # Fixed: Renamed from 'drainage' to match CSV
     rainfall_min = models.FloatField()
     rainfall_max = models.FloatField()
     temperature_min = models.FloatField()
     temperature_max = models.FloatField()
 
-
+    class Meta:
+        verbose_name = "Crop Master"
+        verbose_name_plural = "Crop Masters"
 
     def __str__(self):
         return self.crop_name
